@@ -1,12 +1,8 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FavoritosContext } from "../context/FavoritosContext";
 
 function Favoritos() {
-  const { favoritos, setFavoritos } = useContext(FavoritosContext);
-
-  const removeFavorito = (id) => {
-    setFavoritos(favoritos.filter((f) => f.id !== id));
-  };
+  const { favoritos } = useContext(FavoritosContext);
 
   return (
     <div>
@@ -14,12 +10,11 @@ function Favoritos() {
       {favoritos.length === 0 ? (
         <p>No tienes películas favoritas aún.</p>
       ) : (
-        favoritos.map((movie) => (
-          <div key={movie.id}>
-            <h3>{movie.title}</h3>
-            <button onClick={() => removeFavorito(movie.id)}>Eliminar</button>
-          </div>
-        ))
+        <ul>
+          {favoritos.map((item, index) => (
+            <li key={index}>{item.title}</li>
+          ))}
+        </ul>
       )}
     </div>
   );
