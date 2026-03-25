@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FavoritosContext } from "../context/FavoritosContext";
+import MovieCard from "../components/MovieCard";
 
 function Favoritos() {
   const { favoritos } = useContext(FavoritosContext);
@@ -8,13 +9,15 @@ function Favoritos() {
     <div>
       <h1>Mis Favoritos</h1>
       {favoritos.length === 0 ? (
-        <p>No tienes películas favoritas aún.</p>
+        <p style={{ textAlign: "center", marginTop: "20px" }}>
+          No tienes películas en favoritos todavía.
+        </p>
       ) : (
-        <ul>
-          {favoritos.map((item, index) => (
-            <li key={index}>{item.title}</li>
+        <div className="movies-grid">
+          {favoritos.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

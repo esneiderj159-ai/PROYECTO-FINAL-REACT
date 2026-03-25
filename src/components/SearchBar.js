@@ -1,20 +1,23 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query.trim() === "") {
-      alert("El campo no puede estar vacío");
-      return;
+    if (query.trim() !== "") {
+      onSearch(query);
     }
-    onSearch(query);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar película..." />
+    <form className="search-bar" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Buscar película..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
       <button type="submit">Buscar</button>
     </form>
   );

@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getMovies } from "../services/api";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
-import { useContext } from "react";
 import { FavoritosContext } from "../context/FavoritosContext";
 
 function Home() {
@@ -20,13 +19,26 @@ function Home() {
     }
   };
 
+  // Opcional: cargar películas populares al inicio
+  useEffect(() => {
+    const fetchInitial = async () => {
+      const data = await getMovies("popular");
+      setMovies(data);
+    };
+    fetchInitial();
+  }, []);
+
   return (
     <div>
       <h1>Catálogo de Películas</h1>
       <SearchBar onSearch={handleSearch} />
-      <div>
+      <div className="movies-grid">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} onAddFavorito={addFavorito} />
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            onAddFavorito={addFavorito}
+          />
         ))}
       </div>
     </div>

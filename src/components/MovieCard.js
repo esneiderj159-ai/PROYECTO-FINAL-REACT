@@ -1,12 +1,20 @@
-import { Link } from "react-router-dom";
+import React from "react";
 
 function MovieCard({ movie, onAddFavorito }) {
   return (
-    <div>
+    <div className="movie-card">
+      {movie.poster_path && (
+        <img
+          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+          alt={movie.title}
+        />
+      )}
       <h3>{movie.title}</h3>
-      <p>{movie.release_date}</p>
-      <Link to={`/detalle/${movie.id}`}>Ver detalles</Link>
-      <button onClick={() => onAddFavorito(movie)}>Agregar a favoritos</button>
+      {onAddFavorito && (
+        <button onClick={() => onAddFavorito(movie)}>
+          Agregar a Favoritos
+        </button>
+      )}
     </div>
   );
 }
