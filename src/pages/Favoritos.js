@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { FavoritosContext } from "../context/FavoritosContext";
-import MovieCard from "../components/MovieCard";
 
 function Favoritos() {
-  const { favoritos } = useContext(FavoritosContext);
+  const { favoritos, setFavoritos } = useContext(FavoritosContext);
+
+  const removeFavorito = (id) => {
+    setFavoritos(favoritos.filter((movie) => movie.id !== id));
+  };
 
   return (
     <div>
@@ -15,7 +18,18 @@ function Favoritos() {
       ) : (
         <div className="movies-grid">
           {favoritos.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <div key={movie.id} className="movie-card">
+              {movie.poster_path && (
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              )}
+              <h3>{movie.title}</h3>
+              <button onClick={() => removeFavorito(movie.id)}>
+                Eliminar de Favoritos
+              </button>
+            </div>
           ))}
         </div>
       )}
