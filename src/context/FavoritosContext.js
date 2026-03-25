@@ -1,28 +1,22 @@
-import { useContext } from "react";
-import { FavoritosContext } from "../context/FavoritosContext";
+import { createContext, useState, useEffect } from "react";
 
-function Favoritos() {
-  const { favoritos, setFavoritos } = useContext(FavoritosContext);
+export const FavoritosContext = createContext();
 
-  const removeFavorito = (id) => {
-    setFavoritos(favoritos.filter((f) => f.id !== id));
-  };
+export const FavoritosProvider = ({ children }) => {
+  const [favoritos, setFavoritos] = useState([]);
+
+  useEffect(() => {
+    const data = localStorage.getItem("favoritos");
+    if (data) setFavoritos(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  }, [favoritos]);
 
   return (
-    <div>
-      <h1>Mis Favoritos</h1>
-      {favoritos.length === 0 ? (
-        <p>No tienes películas favoritas aún.</p>
-      ) : (
-        favoritos.map((movie) => (
-          <div key={movie.id}>
-            <h3>{movie.title}</h3>
-            <button onClick={() => removeFavorito(movie.id)}>Eliminar</button>
-          </div>
-        ))
-      )}
-    </div>
+    <FavoritosContext.Provider value={{ favoritos, setFavoritos }}>
+      {children}
+    </FavoritosContext.Provider>
   );
-}
-
-export default Favoritos;
+};
